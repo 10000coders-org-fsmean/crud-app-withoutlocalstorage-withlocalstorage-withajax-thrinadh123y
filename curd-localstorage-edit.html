@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Document</title>
+    <script src="data1.js"></script>
+</head>
+<body>
+        <form class="needs-validation" novalidate>
+          <div class="form-row">
+            <div class="col-md-6 mb-3">
+              <label for="validationCustom01">First name</label>
+              <input type="text" class="form-control" id="name" placeholder="First name" required>
+              <div class="valid-feedback">
+                Looks good!
+              </div>
+            </div>
+
+                      <div class="form-group col-md-6">
+                            <label for="username">User Name</label>
+                            <input type="text" class="form-control" id="username" aria-describedby="emailHelp" placeholder="User Name">
+                          </div>
+                          <div class="form-group col-md-6">
+                                <label for="email">Email</label>
+                                <input type="text" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Email">
+                              </div>
+                        <div class="form-group col-md-6">
+                                                            <label for="phone">Phone</label>
+                                                            <input type="text" class="form-control" id="phone" aria-describedby="emailHelp" placeholder="Phone">
+                                                          </div>
+                                                          <div class="form-group col-md-6">
+                                                                <label for="website">Web Site</label>
+                                                                <input type="text" class="form-control" id="website" aria-describedby="emailHelp" placeholder="Web site">
+                                                              </div>                 
+            
+                <button type="button" class="btn btn-primary" onclick="updateUser()">Submit</button>
+              </form>
+   <script>
+         users = JSON.parse(localStorage.getItem('users'))
+       var addresStr= window.location.href
+       var index = addresStr.substr(addresStr.indexOf("=")+1)
+
+       var editObj = users[index]
+       document.getElementById('name').value = editObj.name
+       document.getElementById('username').value = editObj.username
+       document.getElementById('email').value=editObj.email
+       document.getElementById('phone').value=editObj.phone
+       document.getElementById('website').value=editObj.website
+    function updateUser(){
+        users[index].name= document.getElementById('name').value,
+        users[index].username= document.getElementById('username').value,
+        users[index].email=document.getElementById('email').value,
+        users[index].phone=document.getElementById('phone').value,
+        users[index].website=document.getElementById('website').value
+        
+        users[index]=editObj;
+        localStorage.setItem('users',JSON.stringify(users))
+        window.location="curdapp-without-localstorage.html"
+    }
+   </script>
+</body>
+</html>

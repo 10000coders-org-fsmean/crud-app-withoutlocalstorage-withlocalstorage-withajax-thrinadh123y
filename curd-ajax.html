@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" class="form-control" id="search"  placeholder="search" onkeyup="searchuser()">
+
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">User Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Address</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Website</th>
+                <th scope="col">Company</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody id="MyTable">
+        </tbody>
+    </table>
+    <script>
+        function getData(){
+           var getInfo = new XMLHttpRequest();
+           getInfo.onreadystatechange = function(){
+               if(getInfo.readyState == 4 && getInfo.status == 200){
+                   data = JSON.parse(getInfo.responseText)
+                   displaydata(data);
+
+               }
+           }
+           getInfo.open("GET","https://jsonplaceholder.typicode.com/users")
+           getInfo.send();
+        }
+         getData()
+         function displaydata(data){
+                console.log(data)
+                document.getElementById('MyTable').innerHTML = ""
+                for(var i=0;i<data.length;i++){
+                    var tr = document.createElement('tr')
+    
+                    for(a in data[i]){
+                        var td = document.createElement('td')
+                        td.innerHTML = data[i][a];
+                        tr.appendChild(td)
+                    
+                }
+                    var td2 = document.createElement('td')
+                    var td3 = document.createElement('td')
+                    var button = document.createElement('button')
+                    var button2 = document.createElement('button')
+                    button.setAttribute('class','btn btn-warning')
+                    button2.setAttribute('class','btn btn-danger')
+                    button.setAttribute('onclick','edituser('+i+')')
+                    button2.setAttribute('onclick','deleteuser('+i+')')
+                    var anchor = document.createElement("a")
+                    anchor.innerHTML="Edit"
+                    anchor.setAttribute("href","curd-edit.html?="+i)
+    
+                    anchor.setAttribute("target","_blank")
+                    button.appendChild(anchor)
+                    td2.appendChild(button)
+                    button2.innerHTML = "Delete"
+                    td3.appendChild(button2)
+                    tr.appendChild(td2)
+                    tr.appendChild(td3)
+                    document.getElementById('MyTable').appendChild(tr)
+                 }
+    
+            }
+            function searchuser(){
+                var searchuser = [];
+                var enteredtext = document.getElementById('search').value.toLocaleLowerCase()
+                console.log(enteredtext)
+                if(enteredtext.length>1){
+                    for(i=0;i<data.length;i++){
+                    for(a in data[i]){
+                       if(a =="name"){
+                        if(data[i][a].toLocaleLowerCase().indexOf(enteredtext)>-1){
+                            console.log(data[i])
+                        searchuser.push(data[i])
+                        }
+                       }
+                    }
+                }
+                displaydata(searchuser)
+                }else{
+                    displaydata(data)
+                }
+                    }
+            function deleteuser(i){
+              console.log(i)
+              data.splice(i,1)
+             
+              displaydata(data)
+            }
+            </script>
+</body>
+</html>
